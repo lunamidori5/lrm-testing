@@ -18,8 +18,6 @@ Both `lrm_chat.py` and `lrm_qna_trainer.py` contribute to a Large Reasoning Mode
 
 *   `lrm_chat.py`: This script serves as an interactive testing environment for LRMs.  Users can experiment with different models and prompts to evaluate their performance in a conversational setting. Think of it as a sandbox for LRM exploration and validation.
 
-*   `lrm_qna_trainer.py`: This script focuses on training or fine-tuning the LRM for question answering. It prepares the training data (likely question-answer pairs), loads a pre-trained LRM, and then outputs the new training data as the user fills out the questions or the LRM fills out the questions.
-
 *   `lrm_qna_trainer.py`: This script focuses on knowledge extraction and preparation. It processes a text file and transforms the data into a structured JSON format. This JSON output is designed for use in other applications (IE ``unsloth``), effectively creating a knowledge base for LRMs to draw upon.  In essence, it's a data pipeline for training or augmenting LRMs with specific information.
 
 ## Pre-requisites
