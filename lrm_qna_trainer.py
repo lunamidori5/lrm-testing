@@ -52,27 +52,32 @@ for i, question in enumerate(questions):
 
     while True:
         try:
-            response = pipe(chat, max_new_tokens=1024)
+            response = pipe(chat, max_new_tokens=1024 * 4)
 
-            full_response = response[0]['generated_text']  # type: ignore
+            thinking_full_response = response[0]['generated_text'][-1]['content']  # type: ignore
+            full_response = response[0]['generated_text'][0]['content']  # type: ignore
             thinking_str = ""
             output_str = ""
-
-            for item in full_response:
-                if item['role'] == 'assistant':  # type: ignore
-                    content = item['content']  # type: ignore
-                    
-                    thinking_match = re.search(r'<think>(.*?)</think>', content, re.DOTALL) # type: ignore
-                    if thinking_match:
-                        thinking_str = thinking_match.group(1).strip()
-                        content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip() # type: ignore
-                        output_str = content
+            content = "<think> "
             
+            if "<think>" in thinking_full_response:
+                content = thinking_full_response  # type: ignore
+            else:
+                content += thinking_full_response  # type: ignore
+            
+            thinking_match = re.search(r'<think>(.*?)</think>', content, re.DOTALL) # type: ignore
+            if thinking_match:
+                thinking_str = thinking_match.group(1).strip()
+                content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip() # type: ignore
+                output_str = content
+            else:
+                output_str = content
+        
             if len(thinking_str) < 1:
-                raise Exception("\nModel failed to reply")
+                thinking_str = "Model failed to output thinking"
             
             if len(output_str) < 1:
-                raise Exception("\nModel failed to reply")
+                Exception("\nModel failed to reply")
 
             break
         except Exception as ERROR:
