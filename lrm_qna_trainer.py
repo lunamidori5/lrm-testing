@@ -95,9 +95,9 @@ for i, question in enumerate(questions):
 
     user_message_text = input("Text: ")
     if user_message_text == "":
-        output_full = output_str
+        output_full = f"<think>{thinking_str}</think> {output_str}"
     else:
-        output_full = user_message_text
+        output_full = f"<think>{thinking_str}</think> {user_message_text}"
     
     answers.append(output_full)
 
